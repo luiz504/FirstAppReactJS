@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const Loading = styled.div`
   color: #fff;
@@ -43,9 +43,10 @@ export const Owner = styled.header`
     max-width: 400px;
   }
 `;
+
 export const IssueList = styled.ul`
-  padding-top: 30px;
-  margin-top: 30px;
+  padding-top: 15px;
+  margin-top: 15px;
   border-top: 1px solid #ddd;
   list-style: none;
 
@@ -99,6 +100,88 @@ export const IssueList = styled.ul`
         font-size: 12px;
         color: #666;
       }
+    }
+  }
+`;
+
+const clickUp = keyframes`
+  from{
+    transform: translateY(0)
+  }
+  to{
+    transform: translateY(-5px)
+  }
+`;
+const clickLeft = keyframes`
+  from{
+    transform: translateX(0)
+  }
+  to{
+    transform: translateX(-5px)
+  }
+`;
+const clickRight = keyframes`
+  from{
+    transform: translateX(0)
+  }
+  to{
+    transform: translateX(5px)
+  }
+`;
+
+export const IssueFilter = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+
+  button {
+    border-radius: 10px 2px 10px 2px;
+    outline: 0;
+    border: 0;
+    padding: 5px;
+    margin: 0 0.25rem;
+    background: #ddd;
+
+    &:focus {
+      animation: ${clickUp} 250ms;
+      background: #888;
+      box-shadow: 1px 1px rgb(0, 0, 0, 0.5);
+    }
+  }
+`;
+export const PageList = styled.div`
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+
+  #page-back {
+    border-radius: 10px 2px 10px 2px;
+    outline: 0;
+    border: 0;
+    padding: 5px;
+    margin-left: 5%;
+
+    &:focus {
+      animation: ${clickLeft} 250ms;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+  #page-next {
+    border-radius: 10px 2px 10px 2px;
+    outline: 0;
+    border: 0;
+    padding: 5px;
+    margin-right: 5%;
+
+    &:focus {
+      animation: ${clickRight} 250ms;
     }
   }
 `;
