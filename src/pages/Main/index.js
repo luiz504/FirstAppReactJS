@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
 import { FaGithub, FaPlus, FaSpinner } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { Container, Form, SubmitButton } from './styles';
+import Container from '../../components/Container/index';
+import { Form, SubmitButton, List } from './styles';
 
 export default class Main extends Component {
   state = {
     newRepo: '',
     repositories: [],
     loading: false,
-    //* add a new Prop state default false.
   };
+
+  // load localStorage
+  componentDidMount() {
+    const repositories = localStorage.getItem('repositories');
+
+    if (repositories) {
+      this.setState({ repositories: JSON.parse(repositories) });
+    }
+  }
+
+  // update localStorage
+  componentDidUpdate(_, prevState) {
+    const { repositories } = this.state;
+    if (prevState.repositories !== repositories) {
+      localStorage.setItem('repositories', JSON.stringify(repositories));
+    }
+  }
 
   handleInputChange = e => {
     this.setState({ newRepo: e.target.value });
@@ -21,7 +39,6 @@ export default class Main extends Component {
     e.preventDefault();
 
     this.setState({ loading: true });
-    //* change the loading prop value when click the button
 
     const { newRepo, repositories } = this.state;
 
@@ -35,13 +52,11 @@ export default class Main extends Component {
       repositories: [...repositories, data],
       newRepo: '',
       loading: false,
-      //* change back the Prop value to false after completed load
     });
   };
 
   render() {
-    const { newRepo, loading } = this.state;
-    // import the loading Prop in this scope
+    const { newRepo, repositories, loading } = this.state;
 
     return (
       <Container>
@@ -66,9 +81,18 @@ export default class Main extends Component {
             )}
           </SubmitButton>
         </Form>
+
+        <List>
+          {repositories.map(repository => (
+            <li key={repository.name}>
+              <span>{repository.name}</span>
+              <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
+                Details
+              </Link>
+            </li>
+          ))}
+        </List>
       </Container>
     );
   }
 }
-
-//* You can check if method are working and how its work passing a console log passing the state object
